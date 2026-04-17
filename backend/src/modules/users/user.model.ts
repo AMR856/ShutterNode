@@ -22,4 +22,3 @@ export class UserModel {
     return prisma.user.create({ data });
   }
 }
-

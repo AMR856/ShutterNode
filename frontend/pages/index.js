@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 const BASE_URL =
-  "https://image-processing-service-app-5e8c604c3aef.herokuapp.com" || "http://localhost:5000";
+  "http://localhost:5000";
 
 function fetchApi(path, options = {}) {
   const opts = {

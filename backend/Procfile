@@ -1,1 +1,1 @@
-web: npm start
+web: SINGLE_PROCESS=true npm start

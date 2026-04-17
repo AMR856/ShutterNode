@@ -36,7 +36,7 @@ export class UserService {
     if (!valid) {
       throw new CustomError("Invalid credentials", 401, HttpStatusText.FAIL);
     }
-    const expiresIn = process.env.JWT_EXPIRES_IN as StringValue || "1d";
+    const expiresIn = (process.env.JWT_EXPIRES_IN as StringValue) || "1d";
     const token = jwt.sign(
       { id: user.id, email: user.email },
       process.env.JWT_SECRET!,

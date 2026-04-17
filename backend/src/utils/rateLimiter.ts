@@ -1,4 +1,6 @@
 import rateLimit, { RateLimitRequestHandler } from "express-rate-limit";
+import CustomError from "../types/customError";
+import { HttpStatusText } from "../types/HTTPStatusText";
 
 type LimiterOptions = {
   windowMs: number;
@@ -27,7 +29,12 @@ export class RateLimiter {
 
   getLimiter(key: string) {
     const limiter = this.limiters.get(key);
-    if (!limiter) throw new Error(`Limiter for ${key} does not exist`);
+    if (!limiter)
+      throw new CustomError(
+        `Limiter for ${key} does not exist`,
+        500,
+        HttpStatusText.ERROR,
+      );
     return limiter;
   }
 }

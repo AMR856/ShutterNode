@@ -14,7 +14,7 @@ jest.mock("../../cache/redis", () => ({
   getTransformKey: jest.fn(),
 }));
 
-jest.mock("../../queue/rabbitmq", () => ({
+jest.mock("../../queue/bullmq", () => ({
   publishTransformJob: jest.fn(),
 }));
 
@@ -152,8 +152,8 @@ describe("ImageController", () => {
       jest.spyOn(ImageService, "getImage").mockResolvedValue(fakeUrl as any);
 
       const req = {
-        params: { publicId: "abc123" },
-        query: {},
+        params: { },
+        query: { publicId: "abc123" },
         body: {},
       } as unknown as Request;
 

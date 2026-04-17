@@ -10,7 +10,7 @@ A production-ready **Node.js + TypeScript backend** for user authentication and 
 - **Image Uploads** using Multer + Cloudinary
 - **Image Transformations** (resize, crop, rotate, format, filters)
 - **Paginated Image Listing** per user
-- **Background Worker** (RabbitMQ-ready)
+- **Background Worker** (BullMQ + Redis)
 - **Prisma ORM** with SQLite
 - **Centralized Error Handling**
   **Scalable Architecture** (Controller / Service / Model)
@@ -55,7 +55,7 @@ backend
 │   │       ├── image.service.ts
 │   │       └── image.validation.ts
 │   ├── queue
-│   │   └── rabbitmq.ts
+│   │   └── bullmq.ts
 │   ├── storage
 │   │   └── multer.ts
 │   ├── types
@@ -86,7 +86,7 @@ backend
 - **Cloudinary**
 - **Multer**
 - **JWT**
-- **RabbitMQ**
+- **BullMQ**
 - **Redis**
 
 ---

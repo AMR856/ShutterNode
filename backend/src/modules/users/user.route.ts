@@ -10,19 +10,19 @@ const router = Router();
 router.post(
   "/register",
   validate({ body: AuthValidationSchemas.authSchema }),
-  // limiter.getLimiter("register"),
+  limiter.getLimiter("register"),
   UserController.register,
 );
 router.post(
   "/login",
   validate({ body: AuthValidationSchemas.authSchema }),
-  // limiter.getLimiter("login"),
+  limiter.getLimiter("login"),
   UserController.login,
 );
 router.get(
   "/profile",
   auth,
-  // limiter.getLimiter("profile"),
+  limiter.getLimiter("profile"),
   UserController.profile,
 );
 

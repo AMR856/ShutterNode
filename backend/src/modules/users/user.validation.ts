@@ -11,5 +11,4 @@ export class AuthValidationSchemas {
   });
 }
 
-
 export type AuthInput = z.infer<typeof AuthValidationSchemas.authSchema>;

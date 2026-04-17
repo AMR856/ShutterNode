@@ -6,6 +6,8 @@ export class ImageController {
   static async upload(req: Request, res: Response, next: NextFunction) {
     try {
       const currentUser = res.locals.user;
+      // For backward compatibility, we check both id and sub fields for user ID 
+      // (If the token was signed with sub as user ID, we use that, otherwise we fall back to id)
       const userId = Number(currentUser?.id ?? currentUser?.sub ?? currentUser);
 
       const result = await ImageService.uploadImage(
@@ -26,6 +28,7 @@ export class ImageController {
     try {
       const publicId = req.query.publicId as string;
 
+      console.log("Fetching image with public ID:", publicId);
       const url = await ImageService.getImage(publicId);
 
       res.json({

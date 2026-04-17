@@ -19,7 +19,7 @@ interface ResizeOptions {
     | "south_west";
   zoom?: number;
 }
- 
+
 interface AdjustmentOptions {
   brightness?: number;
   contrast?: number;
@@ -30,7 +30,7 @@ interface AdjustmentOptions {
   sharpen?: number;
   unsharpMask?: number;
 }
- 
+
 interface FilterOptions {
   grayscale?: boolean;
   sepia?: boolean;
@@ -49,7 +49,7 @@ interface FilterOptions {
    */
   art?: string;
 }
- 
+
 interface WatermarkOptions {
   text: string;
   fontFamily?: string;
@@ -69,12 +69,12 @@ interface WatermarkOptions {
   x?: number;
   y?: number;
 }
- 
+
 interface BorderOptions {
   width: number;
   color: string;
 }
- 
+
 export interface TransformationOptions {
   resize?: ResizeOptions;
   rotate?: number;
