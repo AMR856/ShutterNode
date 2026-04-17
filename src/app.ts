@@ -11,7 +11,22 @@ import { errorHandler } from "./utils/errorHandler";
 import { HttpStatusText } from "./types/HTTPStatusText";
 import CustomError from "./types/customError";
 
-const allowedOrigins = ["http://localhost:3000"]; // Stills needs to be updated to include the actual frontend URL in production
+const envOrigins =
+  process.env.CORS_ALLOWED_ORIGINS ||
+  process.env.FRONTEND_URL ||
+  process.env.FRONTEND_ORIGIN ||
+  "";
+
+const allowedOrigins = envOrigins
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+if (!allowedOrigins.length) {
+  allowedOrigins.push("http://localhost:3000");
+}
+
+const allowAllOrigins = allowedOrigins.includes("*");
 const app = express();
 
 app.use(requestLogger);
@@ -22,11 +37,12 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) callback(null, true);
-      else
-        callback(
-          new CustomError("Not allowed by CORS", 403, HttpStatusText.FAIL),
-        );
+      if (!origin || allowAllOrigins || allowedOrigins.includes(origin)) {
+        callback(null, true);
+        return;
+      }
+
+      callback(new CustomError("Not allowed by CORS", 403, HttpStatusText.FAIL));
     },
     credentials: true,
   }),
