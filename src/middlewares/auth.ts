@@ -4,7 +4,12 @@ import { HttpStatusText } from "../types/HTTPStatusText";
 
 export async function auth(req: Request, res: Response, next: NextFunction) {
   try {
-    const token = req.cookies.token;
+    const cookieToken = req.cookies?.token;
+    const authHeader = req.headers.authorization;
+    const bearerToken = authHeader?.startsWith("Bearer ")
+      ? authHeader.slice(7).trim()
+      : undefined;
+    const token = cookieToken || bearerToken;
     const user = await verifyToken(token);
     res.locals.user = user;
     next();
