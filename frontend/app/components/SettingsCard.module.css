@@ -152,3 +152,18 @@
   cursor: pointer;
   accent-color: var(--primary);
 }
+
+.colorPicker {
+  width: 100%;
+  height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: #010409;
+  cursor: pointer;
+}
+
+.colorPicker:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.15);
+}

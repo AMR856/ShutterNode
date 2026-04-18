@@ -7,7 +7,7 @@ export interface SettingValue {
   label: string;
   value: string | number | boolean;
   onChange: (value: string | number | boolean) => void;
-  type?: 'range' | 'select' | 'checkbox' | 'number';
+  type?: 'range' | 'select' | 'checkbox' | 'number' | 'color';
   min?: number;
   max?: number;
   step?: number;
@@ -93,6 +93,15 @@ export default function SettingsCard({
                 />
                 <span>Enabled</span>
               </label>
+            )}
+
+            {setting.type === 'color' && (
+              <input
+                type="color"
+                value={String(setting.value)}
+                onChange={(e) => setting.onChange(e.target.value)}
+                className={styles.colorPicker}
+              />
             )}
 
             {!setting.type && (
