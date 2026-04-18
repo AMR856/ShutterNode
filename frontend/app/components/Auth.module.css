@@ -1,0 +1,115 @@
+.authContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.statusIndicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(88, 166, 255, 0.1);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transition: background 0.3s ease;
+}
+
+.dot.active {
+  background: #238636;
+  box-shadow: 0 0 8px rgba(35, 134, 54, 0.6);
+}
+
+.dot.inactive {
+  background: #8b949e;
+}
+
+.statusText {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.authButton {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 8px;
+  color: var(--foreground);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.authButton:hover {
+  background: rgba(88, 166, 255, 0.1);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  min-width: 200px;
+}
+
+.userInfo {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.userLabel {
+  margin: 0;
+  font-size: 12px;
+  color: var(--secondary-text);
+}
+
+.dropdownButton {
+  width: 100%;
+  margin: 0;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: var(--foreground);
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  font-size: 14px;
+}
+
+.dropdownButton:hover {
+  background: rgba(88, 166, 255, 0.1);
+}
+
+.dropdownButton.success {
+  color: #238636;
+}
+
+.dropdownButton.danger {
+  color: #da3633;
+}
+
+.dropdownButton.success:hover {
+  background: rgba(35, 134, 54, 0.1);
+}
+
+.dropdownButton.danger:hover {
+  background: rgba(218, 54, 51, 0.1);
+}

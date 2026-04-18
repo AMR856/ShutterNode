@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0d1117;
+  --foreground: #c9d1d9;
+  --primary: #58a6ff;
+  --success: #238636;
+  --success-hover: #2ea043;
+  --border: #30363d;
+  --card-bg: #161b22;
+  --heading: #f0f6fc;
+  --secondary-text: #8b949e;
+  --subtle-text: #adbac7;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: "Segoe UI", Roboto, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  --font-mono: "Courier New", monospace;
+}
+
+html, body, #__next {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--heading);
+  margin: 0;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+input, textarea, select {
+  background: #010409;
+  border: 1px solid var(--border);
+  color: var(--foreground);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-family: var(--font-sans);
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+}
+
+button {
+  background: var(--success);
+  color: var(--heading);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: background 0.15s ease-in-out;
+}
+
+button:hover {
+  background: var(--success-hover);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

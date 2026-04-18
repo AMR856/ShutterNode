@@ -1,0 +1,86 @@
+.topBarContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.appTitle {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--heading);
+  letter-spacing: -0.5px;
+}
+
+.sidebarContent {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 12px;
+}
+
+.authPrompt {
+  background: linear-gradient(180deg, var(--card-bg) 0%, rgba(13, 17, 23, 0.8) 100%);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px 16px;
+  text-align: center;
+  color: var(--secondary-text);
+  font-size: 14px;
+  line-height: 1.5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.uploadCard {
+  background: linear-gradient(180deg, var(--card-bg) 0%, rgba(13, 17, 23, 0.8) 100%);
+  border: 2px dashed var(--primary);
+  border-radius: 8px;
+  padding: 24px 16px;
+  text-align: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.uploadCard:hover {
+  background: rgba(88, 166, 255, 0.05);
+  border-color: rgba(88, 166, 255, 0.6);
+}
+
+.uploadLabel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  color: var(--primary);
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.uploadLabel svg {
+  opacity: 0.8;
+}
+
+.fileInput {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .appTitle {
+    font-size: 16px;
+  }
+
+  .sidebarContent {
+    gap: 10px;
+  }
+}
