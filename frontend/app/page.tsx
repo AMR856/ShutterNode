@@ -9,6 +9,24 @@ import AuthModal from './components/AuthModal';
 import { imageService } from './services/imageService';
 import styles from './page.module.css';
 
+const getEmailFromAuthPayload = (data: unknown): string => {
+  if (!data || typeof data !== 'object') {
+    return '';
+  }
+
+  const payload = data as { email?: unknown; data?: { email?: unknown } };
+
+  if (typeof payload.email === 'string') {
+    return payload.email;
+  }
+
+  if (typeof payload.data?.email === 'string') {
+    return payload.data.email;
+  }
+
+  return '';
+};
+
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState('');
@@ -687,7 +705,7 @@ export default function Home() {
         onClose={() => setIsAuthModalOpen(false)}
         onLoginSuccess={(data) => {
           setIsLoggedIn(true);
-          setUserEmail(data?.email || data?.data?.email || '');
+          setUserEmail(getEmailFromAuthPayload(data));
         }}
         onRegisterSuccess={() => {
           setIsLoggedIn(false);

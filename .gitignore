@@ -5,3 +5,4 @@ dist/
 .next
 logs/
 coverage/
+package-lock.json
