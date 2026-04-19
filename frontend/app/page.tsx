@@ -5,12 +5,14 @@ import Layout from './components/Layout';
 import Auth from './components/Auth';
 import SettingsCard, { SettingValue } from './components/SettingsCard';
 import Preview from './components/Preview';
+import AuthModal from './components/AuthModal';
 import styles from './page.module.css';
 
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   
   // Image ID for transformations
   const [imageId, setImageId] = useState('');
@@ -436,156 +438,169 @@ export default function Home() {
   ];
 
   return (
-    <Layout
-      topBar={
-        <div className={styles.topBarContent}>
-          <div className={styles.logo}>
-            <h1 className={styles.appTitle}>Image Processor</h1>
-          </div>
-          <Auth
-            isLoggedIn={isLoggedIn}
-            onLogin={handleLogin}
-            onLogout={handleLogout}
-          />
-        </div>
-      }
-      sidebar={
-        <div className={styles.sidebarContent}>
-          {!isLoggedIn ? (
-            <div className={styles.authPrompt}>
-              <p>Please log in to access image processing features</p>
+    <>
+      <Layout
+        topBar={
+          <div className={styles.topBarContent}>
+            <div className={styles.logo}>
+              <h1 className={styles.appTitle}>Image Processor</h1>
             </div>
-          ) : (
-            <>
-              {/* Upload Section */}
-              <div className={styles.uploadCard}>
-                <label htmlFor="imageInput" className={styles.uploadLabel}>
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M12 2v20M2 12h20" strokeWidth="2" strokeLinecap="round" />
-                  </svg>
-                  <span>Upload Image</span>
-                </label>
-                <input
-                  id="imageInput"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                  className={styles.fileInput}
-                />
+            <Auth
+              isLoggedIn={isLoggedIn}
+              onLogin={handleLogin}
+              onLogout={handleLogout}
+              onOpenAuthModal={() => setIsAuthModalOpen(true)}
+            />
+          </div>
+        }
+        sidebar={
+          <div className={styles.sidebarContent}>
+            {!isLoggedIn ? (
+              <div className={styles.authPrompt}>
+                <p>Please log in to access image processing features</p>
               </div>
+            ) : (
+              <>
+                {/* Upload Section */}
+                <div className={styles.uploadCard}>
+                  <label htmlFor="imageInput" className={styles.uploadLabel}>
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <path d="M12 2v20M2 12h20" strokeWidth="2" strokeLinecap="round" />
+                    </svg>
+                    <span>Upload Image</span>
+                  </label>
+                  <input
+                    id="imageInput"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className={styles.fileInput}
+                  />
+                </div>
 
-              {/* Image ID */}
-              <SettingsCard
-                title="Image ID"
-                description="Enter public ID to transform"
-                icon={
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M9 12l2 2 4-4" strokeWidth="2" strokeLinecap="round" />
-                    <circle cx="12" cy="12" r="10" strokeWidth="2" />
-                  </svg>
-                }
-                settings={imageIdSettings}
-              />
+                {/* Image ID */}
+                <SettingsCard
+                  title="Image ID"
+                  description="Enter public ID to transform"
+                  icon={
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <path d="M9 12l2 2 4-4" strokeWidth="2" strokeLinecap="round" />
+                      <circle cx="12" cy="12" r="10" strokeWidth="2" />
+                    </svg>
+                  }
+                  settings={imageIdSettings}
+                />
 
-              {/* Resize Settings */}
-              <SettingsCard
-                title="Resize"
-                description="Adjust dimensions and crop"
-                icon={
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3" strokeWidth="2" />
-                  </svg>
-                }
-                settings={resizeSettings}
-              />
+                {/* Resize Settings */}
+                <SettingsCard
+                  title="Resize"
+                  description="Adjust dimensions and crop"
+                  icon={
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3" strokeWidth="2" />
+                    </svg>
+                  }
+                  settings={resizeSettings}
+                />
 
-              {/* Rotate & Flip */}
-              <SettingsCard
-                title="Rotate & Flip"
-                description="Rotation and flip options"
-                icon={
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M3 4a2 2 0 012-2h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V4z" strokeWidth="2" />
-                  </svg>
-                }
-                settings={rotateFlipSettings}
-              />
+                {/* Rotate & Flip */}
+                <SettingsCard
+                  title="Rotate & Flip"
+                  description="Rotation and flip options"
+                  icon={
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <path d="M3 4a2 2 0 012-2h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V4z" strokeWidth="2" />
+                    </svg>
+                  }
+                  settings={rotateFlipSettings}
+                />
 
-              {/* Adjustments */}
-              <SettingsCard
-                title="Adjustments"
-                description="Color and tone adjustments"
-                icon={
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <circle cx="12" cy="12" r="10" opacity="0.3" />
-                    <path d="M12 2a10 10 0 0110 10v2H2v-2a10 10 0 0110-10z" />
-                  </svg>
-                }
-                settings={adjustmentsSettings}
-              />
+                {/* Adjustments */}
+                <SettingsCard
+                  title="Adjustments"
+                  description="Color and tone adjustments"
+                  icon={
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                      <circle cx="12" cy="12" r="10" opacity="0.3" />
+                      <path d="M12 2a10 10 0 0110 10v2H2v-2a10 10 0 0110-10z" />
+                    </svg>
+                  }
+                  settings={adjustmentsSettings}
+                />
 
-              {/* Filters */}
-              <SettingsCard
-                title="Filters"
-                description="Apply visual effects"
-                icon={
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <rect x="2" y="2" width="20" height="20" rx="2" />
-                    <circle cx="12" cy="12" r="3" />
-                  </svg>
-                }
-                settings={filtersSettings}
-              />
+                {/* Filters */}
+                <SettingsCard
+                  title="Filters"
+                  description="Apply visual effects"
+                  icon={
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <rect x="2" y="2" width="20" height="20" rx="2" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                  }
+                  settings={filtersSettings}
+                />
 
-              {/* Style/Output */}
-              <SettingsCard
-                title="Style & Output"
-                description="Border, background, radius"
-                icon={
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <rect x="3" y="3" width="18" height="18" rx="2" />
-                    <path d="M3 9h18M9 3v18" strokeWidth="2" />
-                  </svg>
-                }
-                settings={styleSettings}
-              />
+                {/* Style/Output */}
+                <SettingsCard
+                  title="Style & Output"
+                  description="Border, background, radius"
+                  icon={
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <rect x="3" y="3" width="18" height="18" rx="2" />
+                      <path d="M3 9h18M9 3v18" strokeWidth="2" />
+                    </svg>
+                  }
+                  settings={styleSettings}
+                />
 
-              {/* Watermark */}
-              <SettingsCard
-                title="Watermark"
-                description="Add text watermark"
-                icon={
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M4 12a8 8 0 018-8v8H4z" strokeWidth="2" />
-                    <path d="M20 12a8 8 0 01-8 8v-8h8z" strokeWidth="2" />
-                  </svg>
-                }
-                settings={watermarkSettings}
-              />
+                {/* Watermark */}
+                <SettingsCard
+                  title="Watermark"
+                  description="Add text watermark"
+                  icon={
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <path d="M4 12a8 8 0 018-8v8H4z" strokeWidth="2" />
+                      <path d="M20 12a8 8 0 01-8 8v-8h8z" strokeWidth="2" />
+                    </svg>
+                  }
+                  settings={watermarkSettings}
+                />
 
-              {/* Quality/Output */}
-              <SettingsCard
-                title="Quality & Format"
-                description="Output settings"
-                icon={
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M12 2v20M2 12h20" strokeWidth="2" strokeLinecap="round" />
-                  </svg>
-                }
-                settings={qualitySettings}
-              />
-            </>
-          )}
-        </div>
-      }
-      preview={
-        <Preview
-          title="Preview"
-          imageUrl={previewImage || undefined}
-          loading={isProcessing}
-          error={isLoggedIn && !previewImage && !isProcessing ? undefined : undefined}
-        />
-      }
-    />
+                {/* Quality/Output */}
+                <SettingsCard
+                  title="Quality & Format"
+                  description="Output settings"
+                  icon={
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <path d="M12 2v20M2 12h20" strokeWidth="2" strokeLinecap="round" />
+                    </svg>
+                  }
+                  settings={qualitySettings}
+                />
+              </>
+            )}
+          </div>
+        }
+        preview={
+          <Preview
+            title="Preview"
+            imageUrl={previewImage || undefined}
+            loading={isProcessing}
+            error={isLoggedIn && !previewImage && !isProcessing ? undefined : undefined}
+          />
+        }
+      />
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        onLoginSuccess={(data) => {
+          setIsLoggedIn(true);
+        }}
+        onRegisterSuccess={(data) => {
+          setIsLoggedIn(true);
+        }}
+      />
+    </>
   );
 }

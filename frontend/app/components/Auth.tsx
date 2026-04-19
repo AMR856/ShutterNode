@@ -7,10 +7,20 @@ interface AuthProps {
   isLoggedIn: boolean;
   onLogin: () => void;
   onLogout: () => void;
+  onOpenAuthModal?: () => void;
 }
 
-export default function Auth({ isLoggedIn, onLogin, onLogout }: AuthProps) {
+export default function Auth({ isLoggedIn, onLogin, onLogout, onOpenAuthModal }: AuthProps) {
   const [isOpen, setIsOpen] = useState(false);
+
+  const handleLoginClick = () => {
+    setIsOpen(false);
+    if (onOpenAuthModal) {
+      onOpenAuthModal();
+    } else {
+      onLogin();
+    }
+  };
 
   return (
     <div className={styles.authContainer}>
@@ -44,12 +54,12 @@ export default function Auth({ isLoggedIn, onLogin, onLogout }: AuthProps) {
               if (isLoggedIn) {
                 onLogout();
               } else {
-                onLogin();
+                handleLoginClick();
               }
               setIsOpen(false);
             }}
           >
-            {isLoggedIn ? 'Logout' : 'Login'}
+            {isLoggedIn ? 'Logout' : 'Login / Register'}
           </button>
         </div>
       )}
