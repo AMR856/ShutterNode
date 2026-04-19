@@ -54,9 +54,7 @@ export class ImageValidationSchemas {
 
         rotate: z.number().int().optional(),
 
-        flip: z
-          .enum(["horizontal", "vertical", "both"])
-          .optional(),
+        flip: z.enum(["horizontal", "vertical", "both"]).optional(),
 
         format: z
           .enum(["jpg", "png", "webp", "avif", "gif", "pdf", "auto"])
@@ -147,7 +145,7 @@ export class ImageValidationSchemas {
           !!data.watermark,
         {
           message: "At least one transformation must be provided",
-        }
+        },
       ),
   });
 }

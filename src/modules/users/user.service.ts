@@ -54,24 +54,3 @@ export class UserService {
     return user;
   }
 }
-
-// {
-//   "transformations": {
-//     "resize": {
-//       "width": 800,
-//       "height": 600
-//     },
-//     "crop": {
-//       "width": 400,
-//       "height": 300,
-//       "x": 50,
-//       "y": 50
-//     },
-//     "rotate": 90,
-//     "format": "png",
-//     "filters": {
-//       "grayscale": true,
-//       "sepia": false
-//     }
-//   }
-// }

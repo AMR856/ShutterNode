@@ -10,7 +10,6 @@ const getLogLevel = (status: number): "error" | "warn" | "info" | "debug" => {
   return "info";
 };
 
-
 // This function formats the log message to include method, URL, status, content length, response time, and optionally params and query.
 const formatLogMessage = (
   method: string,

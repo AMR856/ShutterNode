@@ -1,14 +1,23 @@
 import { Request, Response, NextFunction } from "express";
 import { ImageService } from "./image.service";
 import { HttpStatusText } from "../../types/HTTPStatusText";
+import CustomError from "../../types/customError";
 
 export class ImageController {
   static async upload(req: Request, res: Response, next: NextFunction) {
     try {
+      if (!req.file) {
+        throw new CustomError("No image uploaded", 400, HttpStatusText.FAIL);
+      }
+
       const currentUser = res.locals.user;
       // For backward compatibility, we check both id and sub fields for user ID 
       // (If the token was signed with sub as user ID, we use that, otherwise we fall back to id)
       const userId = Number(currentUser?.id ?? currentUser?.sub ?? currentUser);
+
+      if (!Number.isInteger(userId) || userId <= 0) {
+        throw new CustomError("Unauthorized", 401, HttpStatusText.FAIL);
+      }
 
       const result = await ImageService.uploadImage(
         req.file as Express.Multer.File,
@@ -26,9 +35,15 @@ export class ImageController {
 
   static async get(req: Request, res: Response, next: NextFunction) {
     try {
-      const publicId = req.query.publicId as string;
+      const publicId =
+        ((req.query.publicId as string) ||
+          (req.params.publicId as string) ||
+          "").trim();
 
-      console.log("Fetching image with public ID:", publicId);
+      if (!publicId) {
+        throw new CustomError("publicId is required", 400, HttpStatusText.FAIL);
+      }
+
       const url = await ImageService.getImage(publicId);
 
       res.json({
@@ -46,9 +61,17 @@ export class ImageController {
       const body = (res.locals.body as { transformations?: any }) || req.body;
 
       const id = String(query.id || "");
+      if (!id) {
+        throw new CustomError("image id is required", 400, HttpStatusText.FAIL);
+      }
+
       const transformations = body.transformations;
 
-      const url = await ImageService.transform(transformations, id);
+      const result = await ImageService.transform(transformations, id);
+      const url =
+        typeof result === "string"
+          ? result
+          : (result as { url?: string }).url;
 
       res.json({
         status: HttpStatusText.SUCCESS,
@@ -69,8 +92,20 @@ export class ImageController {
       const page = Number(query.page || 1);
       const limit = Number(query.limit || 10);
 
+      if (!Number.isInteger(page) || page <= 0) {
+        throw new CustomError("Invalid page parameter", 400, HttpStatusText.FAIL);
+      }
+
+      if (!Number.isInteger(limit) || limit <= 0) {
+        throw new CustomError("Invalid limit parameter", 400, HttpStatusText.FAIL);
+      }
+
       const currentUser = res.locals.user;
       const userId = Number(currentUser?.id ?? currentUser?.sub ?? currentUser);
+
+      if (!Number.isInteger(userId) || userId <= 0) {
+        throw new CustomError("Unauthorized", 401, HttpStatusText.FAIL);
+      }
 
       const images = await ImageService.getImages(userId, page, limit);
 

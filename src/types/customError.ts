@@ -4,7 +4,11 @@ export default class CustomError extends Error {
   statusCode: number;
   statusText: string;
   isJoi?: boolean;
-  constructor(message: string, statusCode: number = 500, statusText: string = HttpStatusText.FAIL) {
+  constructor(
+    message: string,
+    statusCode: number = 500,
+    statusText: string = HttpStatusText.FAIL,
+  ) {
     super(message);
     this.statusCode = statusCode;
     this.statusText = statusText;

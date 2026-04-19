@@ -9,7 +9,7 @@ export function signToken(user: { id: number; username: string }) {
       username: user.username,
     },
     JWT_SECRET,
-    { expiresIn: "7d" }
+    { expiresIn: "7d" },
   );
 }
 

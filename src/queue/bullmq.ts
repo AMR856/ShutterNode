@@ -5,8 +5,7 @@ export const IMAGE_TRANSFORM_QUEUE = "image_transform";
 export const IMAGE_UPLOAD_QUEUE = "image_upload";
 export const IMAGE_UPLOAD_DEAD_QUEUE = "image_upload_dead";
 
-
-// Define TypeScript interfaces for the data structures used in the BullMQ queues, including upload and transform job data, 
+// Define TypeScript interfaces for the data structures used in the BullMQ queues, including upload and transform job data,
 // as well as dead upload job data with error information.
 export interface UploadJobData {
   uploadId: string;
@@ -17,7 +16,6 @@ export interface UploadJobData {
 export interface TransformJobData {
   imageId: string;
   transformations: unknown;
-  url: string;
 }
 
 // This interface extends the UploadJobData to include additional fields for tracking the number of attempts and any error messages for failed upload jobs.
@@ -38,8 +36,8 @@ export const imageUploadQueue = new Queue<UploadJobData>(IMAGE_UPLOAD_QUEUE, {
   defaultJobOptions: {
     attempts: 3,
     backoff: {
-      // It increases the delay between retries exponentially, 
-      // starting with a 2-second delay for the first retry, 
+      // It increases the delay between retries exponentially,
+      // starting with a 2-second delay for the first retry,
       // then 4 seconds for the second retry, and so on.
       type: "exponential",
       delay: 2_000,
@@ -48,31 +46,33 @@ export const imageUploadQueue = new Queue<UploadJobData>(IMAGE_UPLOAD_QUEUE, {
   },
 });
 
-
 export const imageTransformQueue = new Queue<TransformJobData>(
   IMAGE_TRANSFORM_QUEUE,
   {
     connection: queueConnection,
     defaultJobOptions: {
       // Add retries for transient failures
-      attempts: 2,  // Lower than upload (less likely to recover)
+      attempts: 2, // Lower than upload (less likely to recover)
       backoff: {
         type: "exponential",
         delay: 1_000, // Shorter delay than upload
       },
       removeOnComplete: true,
     },
-  }
+  },
 );
 
-export const imageUploadDeadQueue = new Queue<DeadUploadJobData>(IMAGE_UPLOAD_DEAD_QUEUE, {
-  connection: queueConnection,
-  defaultJobOptions: {
-    removeOnComplete: false, // Keep failed jobs for inspection
+export const imageUploadDeadQueue = new Queue<DeadUploadJobData>(
+  IMAGE_UPLOAD_DEAD_QUEUE,
+  {
+    connection: queueConnection,
+    defaultJobOptions: {
+      removeOnComplete: false, // Keep failed jobs for inspection
+    },
   },
-});
+);
 
-// This function establishes connections to all the defined BullMQ queues (image upload, image transform, and dead upload queues) and waits until they are ready before proceeding with any operations. 
+// This function establishes connections to all the defined BullMQ queues (image upload, image transform, and dead upload queues) and waits until they are ready before proceeding with any operations.
 // It ensures that the queues are fully initialized and ready to handle jobs before any processing begins.
 export async function connectBullMQ() {
   await Promise.all([
@@ -91,7 +91,7 @@ export async function publishUploadJob(data: UploadJobData) {
 }
 
 // This function gracefully shuts down the BullMQ queues by closing their connections and quitting the Redis connection.
-//  It ensures that all resources are properly released and that the queues are cleanly terminated when the application 
+//  It ensures that all resources are properly released and that the queues are cleanly terminated when the application
 // is shutting down or when the queues are no longer needed.
 export async function disconnectBullMQ() {
   await Promise.all([

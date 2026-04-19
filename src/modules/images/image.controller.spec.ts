@@ -152,7 +152,7 @@ describe("ImageController", () => {
       jest.spyOn(ImageService, "getImage").mockResolvedValue(fakeUrl as any);
 
       const req = {
-        params: { },
+        params: {},
         query: { publicId: "abc123" },
         body: {},
       } as unknown as Request;
@@ -220,7 +220,12 @@ describe("ImageController", () => {
   describe("transform", () => {
     it("should return transformed image url", async () => {
       const fakeUrl = "https://cdn/abc123_transformed.jpg";
-      jest.spyOn(ImageService, "transform").mockResolvedValue(fakeUrl);
+      jest.spyOn(ImageService, "transform").mockResolvedValue({
+        imageId: "abc123",
+        publicId: "encoded-public-id",
+        status: "completed",
+        url: fakeUrl,
+      });
 
       const transformations = {
         resize: { width: 800, height: 600 },
@@ -298,8 +303,15 @@ describe("ImageController", () => {
 
   describe("getUploadStatus", () => {
     it("should return upload status", async () => {
-      const status = { id: "uuid-1", status: "pending", publicId: null, url: null };
-      jest.spyOn(ImageService, "getUploadStatus").mockResolvedValue(status as any);
+      const status = {
+        id: "uuid-1",
+        status: "pending",
+        publicId: null,
+        url: null,
+      };
+      jest
+        .spyOn(ImageService, "getUploadStatus")
+        .mockResolvedValue(status as any);
 
       const req = {
         params: { id: "uuid-1" },
@@ -326,9 +338,7 @@ describe("ImageController", () => {
   describe("getImages", () => {
     it("should return paginated images", async () => {
       const images = [{ id: "abc", url: "https://cdn/test.jpg", userId: 42 }];
-      jest
-        .spyOn(ImageService, "getImages")
-        .mockResolvedValue(images as any);
+      jest.spyOn(ImageService, "getImages").mockResolvedValue(images as any);
 
       const req = {
         query: { page: "1", limit: "10" },

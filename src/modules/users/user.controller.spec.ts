@@ -34,7 +34,9 @@ describe("UserController", () => {
 
       const req = { params: {}, query: {}, body: {} } as Request;
       const res = makeResponse();
-      res.locals = { body: { email: "test@example.com", password: "password123" } };
+      res.locals = {
+        body: { email: "test@example.com", password: "password123" },
+      };
 
       const next = makeNext();
 
@@ -50,12 +52,18 @@ describe("UserController", () => {
     });
 
     it("should call next with error when user already exists", async () => {
-      const conflict = new CustomError("User already exists", 409, HttpStatusText.FAIL);
+      const conflict = new CustomError(
+        "User already exists",
+        409,
+        HttpStatusText.FAIL,
+      );
       jest.spyOn(UserService, "register").mockRejectedValue(conflict);
 
       const req = { params: {}, query: {}, body: {} } as Request;
       const res = makeResponse();
-      res.locals = { body: { email: "taken@example.com", password: "password123" } };
+      res.locals = {
+        body: { email: "taken@example.com", password: "password123" },
+      };
 
       const next = makeNext();
 
@@ -67,7 +75,6 @@ describe("UserController", () => {
     });
   });
 
-
   describe("login", () => {
     it("should set cookie and return token on success", async () => {
       const fakeResult = { token: "jwt.token.here" };
@@ -75,7 +82,9 @@ describe("UserController", () => {
 
       const req = { params: {}, query: {}, body: {} } as Request;
       const res = makeResponse();
-      res.locals = { body: { email: "test@example.com", password: "password123" } };
+      res.locals = {
+        body: { email: "test@example.com", password: "password123" },
+      };
 
       const next = makeNext();
 
@@ -85,7 +94,7 @@ describe("UserController", () => {
       expect(res.cookie).toHaveBeenCalledWith(
         "token",
         fakeResult.token,
-        expect.objectContaining({ httpOnly: true })
+        expect.objectContaining({ httpOnly: true }),
       );
       expect(res.json).toHaveBeenCalledWith({
         status: HttpStatusText.SUCCESS,
@@ -95,7 +104,11 @@ describe("UserController", () => {
     });
 
     it("should call next with 401 on invalid credentials", async () => {
-      const unauthorized = new CustomError("Invalid credentials", 401, HttpStatusText.FAIL);
+      const unauthorized = new CustomError(
+        "Invalid credentials",
+        401,
+        HttpStatusText.FAIL,
+      );
       jest.spyOn(UserService, "login").mockRejectedValue(unauthorized);
 
       const req = { params: {}, query: {}, body: {} } as Request;
@@ -112,10 +125,13 @@ describe("UserController", () => {
     });
   });
 
-
   describe("profile", () => {
     it("should return user profile data", async () => {
-      const fakeUser = { id: 42, email: "test@example.com", username: "tester" };
+      const fakeUser = {
+        id: 42,
+        email: "test@example.com",
+        username: "tester",
+      };
       jest.spyOn(UserService, "profile").mockResolvedValue(fakeUser as any);
 
       const req = { params: {}, query: {}, body: {} } as Request;
@@ -150,7 +166,11 @@ describe("UserController", () => {
     });
 
     it("should call next with 404 when user not found", async () => {
-      const notFound = new CustomError("User not found", 404, HttpStatusText.FAIL);
+      const notFound = new CustomError(
+        "User not found",
+        404,
+        HttpStatusText.FAIL,
+      );
       jest.spyOn(UserService, "profile").mockRejectedValue(notFound);
 
       const req = { params: {}, query: {}, body: {} } as Request;

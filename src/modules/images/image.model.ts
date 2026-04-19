@@ -40,8 +40,7 @@ export class ImageModel {
     id: string,
     data: { publicId?: string; url?: string; status: string },
   ) {
-    console.log("Updating image record with ID:", id, "Data:", data);
-    
+
     return prisma.image.update({
       where: { id },
       data: {
