@@ -48,8 +48,8 @@ app.use(
   }),
 );
 
-app.use("/users", userRouter);
-app.use("/images", imageRouter);
+app.use("/api/auth", userRouter);
+app.use("/api/images", imageRouter);
 
 app.use((req, res) => {
   res.status(404).json({
