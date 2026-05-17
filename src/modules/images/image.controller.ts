@@ -121,6 +121,33 @@ export class ImageController {
     }
   }
 
+  static async delete(req: Request, res: Response, next: NextFunction) {
+    try {
+      const params = (res.locals.params as { id?: string }) || req.params;
+      const id = String(params?.id || "");
+
+      if (!id) {
+        throw new CustomError("image id is required", 400, HttpStatusText.FAIL);
+      }
+
+      const currentUser = res.locals.user;
+      const userId = Number(currentUser?.id ?? currentUser?.sub ?? currentUser);
+
+      if (!Number.isInteger(userId) || userId <= 0) {
+        throw new CustomError("Unauthorized", 401, HttpStatusText.FAIL);
+      }
+
+      const result = await ImageService.deleteImage(userId, id);
+
+      res.status(200).json({
+        status: HttpStatusText.SUCCESS,
+        data: result,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
   static async getUploadStatus(
     req: Request,
     res: Response,

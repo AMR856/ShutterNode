@@ -123,4 +123,27 @@ export class ImageService {
 
     return ImageModel.findByUserIdPaginated(userId, skip, l);
   }
+
+  static async deleteImage(userId: number, id: string) {
+    const image = await ImageModel.findById(id);
+
+    if (!image) {
+      throw new CustomError("Image not found", 404, HttpStatusText.FAIL);
+    }
+
+    if (image.userId !== userId) {
+      throw new CustomError("Forbidden", 403, HttpStatusText.FAIL);
+    }
+
+    if (image.publicId) {
+      await cloudinary.uploader.destroy(decodePublicId(image.publicId));
+    }
+
+    await ImageModel.deleteById(id);
+
+    return {
+      id,
+      deleted: true,
+    };
+  }
 }

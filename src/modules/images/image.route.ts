@@ -30,6 +30,13 @@ router.get(
   ImageController.getUploadStatus,
 );
 
+router.delete(
+  "/:id",
+  auth,
+  validate({ params: ImageValidationSchemas.deleteIdParam }),
+  ImageController.delete,
+);
+
 router.get(
   "/",
   auth,

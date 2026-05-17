@@ -9,6 +9,10 @@ export class ImageValidationSchemas {
     id: z.string().min(1, "Image upload ID is required"),
   });
 
+  static deleteIdParam = z.object({
+    id: z.string().min(1, "Image id is required"),
+  });
+
   static paginationQuery = z.object({
     page: z
       .preprocess((val) => Number(val), z.number().int().positive())

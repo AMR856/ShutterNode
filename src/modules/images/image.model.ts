@@ -63,4 +63,10 @@ export class ImageModel {
       },
     });
   }
+
+  static deleteById(id: string) {
+    return prisma.image.delete({
+      where: { id },
+    });
+  }
 }
