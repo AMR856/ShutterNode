@@ -1,4 +1,4 @@
-# Image Processing Service
+# ShutterNode
 
 A production-ready **Node.js + TypeScript backend** for user authentication and image processing. The project supports secure user accounts, image uploads via Cloudinary, image transformations, pagination, and background processing with a clean layered architecture.
 
