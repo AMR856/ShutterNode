@@ -3,7 +3,7 @@ import "./globals.css";
 import ToastProvider from "./components/ToastProvider";
 
 export const metadata: Metadata = {
-  title: "Image Processor",
+  title: "ShutterNode",
   description: "Modern image processing application with real-time preview",
 };
 

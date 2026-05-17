@@ -57,7 +57,7 @@ export class ImageValidationSchemas {
         flip: z.enum(["horizontal", "vertical", "both"]).optional(),
 
         format: z
-          .enum(["jpg", "png", "webp", "avif", "gif", "pdf", "auto"])
+          .enum(["jpg", "png", "webp", "avif", "gif", "auto"])
           .optional(),
 
         fetchFormat: z.enum(["auto"]).optional(),

@@ -115,7 +115,7 @@ type TransformRequestBody = {
     };
     rotate?: number;
     flip?: 'horizontal' | 'vertical' | 'both';
-    format?: 'jpg' | 'png' | 'webp' | 'avif' | 'gif' | 'pdf' | 'auto';
+    format?: 'jpg' | 'png' | 'webp' | 'avif' | 'gif' | 'auto';
     fetchFormat?: 'auto';
     quality?: number | 'auto';
     dpr?: number;

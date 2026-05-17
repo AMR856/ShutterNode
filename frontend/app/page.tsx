@@ -516,7 +516,7 @@ export default function Home() {
         { label: 'WebP', value: 'webp' },
         { label: 'AVIF', value: 'avif' },
         { label: 'GIF', value: 'gif' },
-        { label: 'PDF', value: 'pdf' },
+        // { label: 'PDF', value: 'pdf' },
         { label: 'Auto', value: 'auto' },
       ],
     },
@@ -538,7 +538,7 @@ export default function Home() {
         topBar={
           <div className={styles.topBarContent}>
             <div className={styles.logo}>
-              <h1 className={styles.appTitle}>Image Processor</h1>
+              <h1 className={styles.appTitle}>ShutterNode</h1>
             </div>
             <div className={styles.topBarActions}>
               <Link
